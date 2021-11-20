@@ -14,6 +14,10 @@ const tokenSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+    },
     type: {
       type: String,
       enum: [tokenTypes.REFRESH, tokenTypes.RESET_PASSWORD, tokenTypes.VERIFY_EMAIL],
