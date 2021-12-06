@@ -12,35 +12,23 @@ const createProduct = async (productBody) => {
   return Product.create(productBody);
 };
 
-/**
- * Query for users
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
+
 const queryProducts = async (filter, options) => {
-  const users = await Product.paginate(filter, options);
-  return users;
+  try {
+    const products = await Product.find({}).populate('category','name');
+    return products;
+  } catch(error) {
+    console.log('1' + error)
+    return error;
+  }
 };
 
-/**
- * Get user by id
- * @param {ObjectId} id
- * @returns {Promise<User>}
- */
+
 const getProductById = async (id) => {
   return Product.findById(id);
 };
 
-/**
- * Update user by id
- * @param {ObjectId} userId
- * @param {Object} updateBody
- * @returns {Promise<User>}
- */
+
 const updateProductById = async (productId, updateBody) => {
   const product = await getProductById(productId);
   if (!product) {
@@ -51,11 +39,7 @@ const updateProductById = async (productId, updateBody) => {
   return product;
 };
 
-/**
- * Delete user by id
- * @param {ObjectId} userId
- * @returns {Promise<User>}
- */
+
 const deleteProductById = async (productId) => {
   const product = await getProductById(productId);
   if (!product) {

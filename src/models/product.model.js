@@ -22,12 +22,17 @@ const productSchema = mongoose.Schema(
         },
         rating: {
             type: Number,
-            min: 0,
+            default:5,
+            min: 1,
             max: 5,
         },
         category: {
-            type: String,
+            type: mongoose.SchemaTypes.ObjectId,
             required: true,
+            ref: 'Category'
+        },
+        details: {
+            type: mongoose.SchemaTypes.Mixed,
         }
 
     },

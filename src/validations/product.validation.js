@@ -6,6 +6,7 @@ const createProduct = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     price: Joi.number().required(),
+    category: Joi.required(),
   }),
 };
 

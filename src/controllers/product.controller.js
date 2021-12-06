@@ -11,14 +11,25 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getProducts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'price','category']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await productService.queryProducts(filter, options);
-  res.send(result);
+  try {
+    const filter = pick(req.query, ['name', 'price','category']);
+    const options = pick(req.query, ['sortBy', 'limit', 'page']);
+    const result = await productService.queryProducts(filter, options);
+    res.send({
+        message: 'OK',
+        data: result
+      });
+  } catch (error) {
+    console.log(error);
+    res.send({
+      message: 'error',
+      data: error
+    })
+  }
 });
 
 const getProduct = catchAsync(async (req, res) => {
-  const product = await productService.getProductById(req.params.userId);
+  const product = await productService.getProductById(req.params.productId);
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
   }
@@ -26,7 +37,7 @@ const getProduct = catchAsync(async (req, res) => {
 });
 
 const updateProduct = catchAsync(async (req, res) => {
-  const user = await productService.updateProductById(req.params.userId, req.body);
+  const user = await productService.updateProductById(req.params.productId, req.body);
   res.send(user);
 });
 
